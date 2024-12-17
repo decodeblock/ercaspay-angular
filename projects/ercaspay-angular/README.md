@@ -224,4 +224,6 @@ You can listen for these two events:
 
 This library makes it simple to integrate **Ercaspay** into your Angular standalone application. By following the steps above, you can easily initiate payments, customize the checkout button, and handle payment events.
 
+Note: This library is far from complete, and more functionalities will be added in more recent versions.
+
 For any issues or questions, please contact support or open a GitHub issue.
