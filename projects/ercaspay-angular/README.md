@@ -1,24 +1,100 @@
-# ErcaspayAngular
+```md
+# Ercaspay Angular Library
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+A simple Angular library to integrate the Ercaspay payment gateway into your Angular 14+ application using standalone components.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name --project ercaspay-angular` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ercaspay-angular`.
-> Note: Don't forget to add `--project ercaspay-angular` or else it will be added to the default project in your `angular.json` file. 
+```bash
+npm install ercaspay-angular
+```
 
-## Build
+## Usage
 
-Run `ng build ercaspay-angular` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Standalone Component Setup
 
-## Publishing
+In your root component, import `ErcaspayAngularService` and provide it in the `providers`:
 
-After building your library with `ng build ercaspay-angular`, go to the dist folder `cd dist/ercaspay-angular` and run `npm publish`.
+```typescript
+import { ErcaspayAngularService } from 'ercaspay-angular';
 
-## Running unit tests
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  providers: [
+    {
+      provide: ErcaspayAngularService,
+      useFactory: () => new ErcaspayAngularService('your-public-key-here')
+    }
+  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'test-app';
+}
+```
 
-Run `ng test ercaspay-angular` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Usage in Standalone Component
 
-## Further help
+You can use the `ercaspay-checkout-button` component in your template:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```html
+<lib-ercaspay-checkout-button 
+  [options]="paymentOptions" 
+  (paymentSuccess)="onPaymentSuccess($event)" 
+  (paymentFailure)="onPaymentFailure($event)">
+  Pay with Ercaspay
+</lib-ercaspay-checkout-button>
+```
+
+### Component Inputs
+
+- `options`: Payment options object. Example:
+
+  ```typescript
+  paymentOptions = {
+    amount: 50000,
+    customerEmail: 'user@mail.com',
+    paymentReference: 'random-reference',
+    paymentMethods: 'card',
+    currency: 'NGN'
+  };
+  ```
+
+### Component Outputs
+
+- `paymentSuccess`: Emits when the payment is successful.
+- `paymentFailure`: Emits when the payment fails.
+
+### Example:
+
+```typescript
+export class PaymentComponent {
+  paymentOptions = {
+    amount: 50000,
+    customerEmail: 'user@mail.com',
+    paymentReference: 'random-reference',
+    paymentMethods: 'card',
+    currency: 'NGN'
+  };
+
+  onPaymentSuccess(response: any) {
+    console.log('Payment successful', response);
+  }
+
+  onPaymentFailure(error: any) {
+    console.log('Payment failed', error);
+  }
+}
+```
+
+## Contributing
+
+We welcome contributions! Please fork the repository and create a pull request with any changes or improvements.
+
+## License
+
+MIT License
+```
